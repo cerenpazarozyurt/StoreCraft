@@ -24,7 +24,7 @@ export function Navbar() {
 
           {!isMobile && (
             <Breadcrumb.Root size="sm" mt="1">
-              <Breadcrumb.List color="text.muted">
+              <Breadcrumb.List color="text.primary">
                 <Breadcrumb.Item>
                   <Breadcrumb.Link asChild>
                     <NextLink href="/dashboard">

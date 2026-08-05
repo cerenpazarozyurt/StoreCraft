@@ -1,10 +1,31 @@
-import Image from "next/image";
-import { Box } from "@chakra-ui/react"
+"use client";
+
+import {useEffect} from "react";
+import {api} from "@/lib/api";
+
+interface Product {
+  id: number;
+  title: string;
+  price: number;
+}
+
+interface ProductsResponse {
+  products: Product[];
+  total: number;
+}
 
 export default function Home() {
-  return (
-    <Box bg="primary.500" color="white" p={4}>
-      Test
-    </Box>
-  );
+  useEffect(() => {
+    async function testApi() {
+      try {
+        const data = await api.get<ProductsResponse>("/products/9999");
+        console.log("API Response:", data);
+      } catch (error) {
+        console.error("API Error:", error);
+      }
+    }
+    testApi();
+  }, []);
+
+  return <div>Api test ediliyor</div>
 }

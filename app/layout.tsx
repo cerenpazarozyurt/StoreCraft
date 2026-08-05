@@ -5,6 +5,8 @@ import { Navbar } from "@/components/Navbar";
 import { Sidebar } from "@/components/Sidebar";
 import { Provider } from "@/components/ui/provider";
 import { Box } from "@chakra-ui/react";
+import { NuqsAdapter } from "nuqs/adapters/next/app"
+import { QueryProvider } from "@/components/QueryProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,6 +32,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     >
       <body className="h-full m-0 p-0 overflow-hidden">
         <Provider>
+          <QueryProvider>
+          <NuqsAdapter>
           <Box bg="bg.canvas" h="100dvh" w="100vw">
             <div className="flex h-full w-full">
               
@@ -44,6 +48,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
             </div>
           </Box>
+          </NuqsAdapter>
+          </QueryProvider>
         </Provider>
       </body>
     </html>
