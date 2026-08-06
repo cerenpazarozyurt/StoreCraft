@@ -42,8 +42,8 @@ export default function OrdersPage() {
     }
   };
 
-  const currentPage = Math.floor(skip / limit) + 1;
-  const totalPages = Math.ceil(total / limit) || 1;
+  const currentPage = Math.floor(skip / limit) + 1; //kaçıncı sayfada olduğumuz
+  const totalPages = Math.ceil(total / limit) || 1; //toplam kaç sayfa var
 
   return (
     <Box p={{ base: "4", md: "8" }} maxW="1400px" mx="auto">
@@ -62,7 +62,7 @@ export default function OrdersPage() {
         <Box bg="bg.surface" p="6" borderRadius="xl" boxShadow="sm" flex="1" border="1px solid" borderColor="border.default" display="flex" flexDirection="column" justifyContent="space-between">
           <Flex justify="space-between" align="center" mb="4">
             <Flex align="center" gap="3">
-              <Flex p="3" bg="green.subtle" color="green.600" borderRadius="lg" align="center" justify="center" w="40px" h="40px">
+              <Flex p="3" bg="accent.50" color="accent.600" borderRadius="lg" align="center" justify="center" w="40px" h="40px">
                 <ShoppingBag size={20} />
               </Flex>
               <Text fontSize="sm" fontWeight="bold" color="text.primary">Total Revenue</Text>
@@ -80,7 +80,7 @@ export default function OrdersPage() {
         <Box bg="bg.surface" p="6" borderRadius="xl" boxShadow="sm" flex="1" border="1px solid" borderColor="border.default" display="flex" flexDirection="column" justifyContent="space-between">
           <Flex justify="space-between" align="center" mb="4">
             <Flex align="center" gap="3">
-              <Flex p="3" bg="blue.subtle" color="blue.500" borderRadius="lg" align="center" justify="center" w="40px" h="40px">
+              <Flex p="3" bg="accent.50" color="accent.600" borderRadius="lg" align="center" justify="center" w="40px" h="40px">
                 <ShoppingBag size={20} />
               </Flex>
               <Text fontSize="sm" fontWeight="bold" color="text.primary">Order Status Overview</Text>
@@ -105,8 +105,8 @@ export default function OrdersPage() {
               <Text fontSize="xl" fontWeight="bold" color="green.500">{completedCount}</Text>
             </Box>
           </Flex>
-        </Box>
-
+        </Box> 
+        
       </Flex>
 
       <Box bg="bg.surface" borderRadius="lg" boxShadow="sm" overflow="hidden">
@@ -196,7 +196,7 @@ export default function OrdersPage() {
               <Button
                 size="sm"
                 variant="ghost"
-                colorScheme="red"
+                colorPalette="red"
                 onClick={() => {
                   setStatusFilter("All");
                   setMinAmount("");

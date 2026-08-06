@@ -44,23 +44,6 @@ export function Navbar() {
         </Box>
 
         <Flex align="center" gap={{ base: "2", md: "4" }}>
-          <Menu.Root>
-            <Menu.Trigger asChild>
-              <Button variant="outline" size="sm">
-                {!isMobile ? "Mağazalar" : "Mağaza"} <ChevronDown size={16} />
-              </Button>
-            </Menu.Trigger>
-            <Portal>
-              <Menu.Positioner>
-                <Menu.Content>
-                  <Menu.Item value="magaza-1">Mağaza 1</Menu.Item>
-                  <Menu.Item value="magaza-2">Mağaza 2</Menu.Item>
-                  <Menu.Item value="magaza-3">Mağaza 3</Menu.Item>
-                </Menu.Content>
-              </Menu.Positioner>
-            </Portal>
-          </Menu.Root>
-
           <Button variant="ghost" size="sm" aria-label="Bildirimler">
             <Bell size={18} />
           </Button>
