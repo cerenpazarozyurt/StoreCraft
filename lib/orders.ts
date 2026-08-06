@@ -52,8 +52,7 @@ export function getMockStatus(id: number): Order["status"] {
 }
 
 //kullanıcı id leri ile isimlerini eşleştiren map
-// DEĞİŞTİ: export edildi — artık kendi useQuery'sinde, ayrı cache'lenecek
-export async function getUserMap(): Promise<Map<number, string>> {  ////Promise<Map<number, string: bu fonk. sonucunda dışarıya bir Promise dönecek ve bu Promise çözüldüğünde elimizde bir Map<number, string> objesi gelecek. Map objesi ise kullanıcı id leri ile isimlerini eşleştiren bir veri yapısı olacak.
+export async function getUserMap(): Promise<Map<number, string>> {  //Promise<Map<number, string: bu fonk. sonucunda dışarıya bir Promise dönecek ve bu Promise çözüldüğünde elimizde bir Map<number, string> objesi gelecek. Map objesi ise kullanıcı id leri ile isimlerini eşleştiren bir veri yapısı olacak.
   const data = await api.get<{ users: User[] }>(`/users?limit=0&select=firstName,lastName`);
   const map = new Map<number, string>();
   data.users.forEach((user) => {
@@ -64,12 +63,11 @@ export async function getUserMap(): Promise<Map<number, string>> {  ////Promise<
 
 //ham sepet verisini alıp üzerine müşteri adı ve durum ekleyerek siparişe dönüştürür.
 function enrichCartToOrder(cart: Cart, userMap: Map<number, string>): Order {
-  const customerName = userMap.get(cart.userId) ?? "Bilinmeyen Müşteri"; ////Daha önce oluşturulan map içinde bu userId'ye karşılık gelen müşteri adını arar.
+  const customerName = userMap.get(cart.userId) ?? "Bilinmeyen Müşteri"; //Daha önce oluşturulan map içinde bu userId'ye karşılık gelen müşteri adını arar.
   const status = getMockStatus(cart.id);
   return { ...cart, customerName, status };
 }
 
-// YENİ: search, status, minAmount, maxAmount'ı TEK bir yerde, tutarlı şekilde uygular
 function applyFilters(orders: Order[], filters: OrderFilters): Order[] {
   return orders.filter((order) => {
     const matchesSearch =
@@ -88,8 +86,6 @@ function hasActiveFilters(filters: OrderFilters): boolean {
   );
 }
 
-// DEĞİŞTİ: userMap artık DIŞARIDAN parametre olarak geliyor (kendi içinde çekmiyor)
-// DEĞİŞTİ: filters parametresi eklendi, search/status/amount hepsi burada, sayfalamadan ÖNCE uygulanıyor
 export async function getOrders(
   skip: number,
   limit: number,
@@ -108,7 +104,6 @@ export async function getOrders(
   return { orders, total: data.total };
 }
 
-// YENİ: stat kartları için — filtrelerden BAĞIMSIZ, her zaman tüm siparişleri getirir
 export async function getAllOrders(userMap: Map<number, string>): Promise<Order[]> {
   const data = await api.get<CartsResponse>(`/carts?limit=0`);
   return data.carts.map((cart) => enrichCartToOrder(cart, userMap));

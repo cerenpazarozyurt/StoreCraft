@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Navbar } from "@/components/Navbar";
-import { Sidebar } from "@/components/Sidebar";
+import { Toaster } from "@/components/ui/toaster";
 import { Provider } from "@/components/ui/provider";
-import { Box } from "@chakra-ui/react";
 import { NuqsAdapter } from "nuqs/adapters/next/app"
 import { QueryProvider } from "@/components/QueryProvider";
 
@@ -25,30 +23,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html
-      lang="en"
-      suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
+    <html lang="en" suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
       <body className="h-full m-0 p-0 overflow-hidden">
         <Provider>
+          <Toaster/> 
           <QueryProvider>
-          <NuqsAdapter>
-          <Box bg="bg.canvas" h="100dvh" w="100vw">
-            <div className="flex h-full w-full">
-              
-              <Sidebar />
-
-              <div className="flex flex-col flex-1 h-full overflow-hidden">
-                <Navbar />
-                <main className="flex-1 overflow-y-auto p-4 md:p-6">
-                  {children}
-                </main>
-              </div>
-
-            </div>
-          </Box>
-          </NuqsAdapter>
+            <NuqsAdapter>{children}</NuqsAdapter>
           </QueryProvider>
         </Provider>
       </body>
