@@ -34,6 +34,7 @@ export function useOrders() {
     staleTime: 1000 * 60 * 5,
   });
 
+  //değer aynıysa aynı, değer değiştiyse yeni istek
   const { data, isLoading, isError } = useQuery({
     queryKey: ["orders", skip, limit, search, statusFilter, minAmount, maxAmount, Boolean(userMap)],
     queryFn: () =>
@@ -46,6 +47,7 @@ export function useOrders() {
     enabled: Boolean(userMap),
   });
 
+  //sayfanın üstündeki kartları yapıları için her zaman tüm siparişleri getirmek için;
   const { data: allOrders } = useQuery({
     queryKey: ["orders-all-metrics", Boolean(userMap)],
     queryFn: () => getAllOrders(userMap!),
