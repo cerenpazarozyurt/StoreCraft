@@ -17,6 +17,18 @@ export interface LoginResponse {
   refreshToken: string;
 }
 
+export interface CurrentUser {
+  id: number;
+  username: string;
+  firstName: string;
+  lastName: string;
+  image: string;
+}
+
+export async function getCurrentUser(): Promise<CurrentUser> {
+  return api.get<CurrentUser>("/auth/me");
+}
+
 export async function login(credentials: LoginCredentials): Promise<LoginResponse> {
   return api.post<LoginResponse>("/auth/login", {
     username: credentials.username,

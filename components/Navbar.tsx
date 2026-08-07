@@ -3,18 +3,51 @@
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
 import { ColorModeButton } from "@/components/ui/color-mode";
-import { Box, Menu, Portal, Button, Flex, Text, Breadcrumb, useBreakpointValue } from "@chakra-ui/react";
+import { Box, Menu, Portal, Button, Flex, Text, Breadcrumb, useBreakpointValue, Spinner, VStack } from "@chakra-ui/react";
 import { Avatar } from "@/components/ui/avatar";
 import { ChevronDown, Home, Bell } from "lucide-react";
 import { navItems } from "@/lib/navigation";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 export function Navbar() {
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const router = useRouter();
   const pathname = usePathname();
   const currentItem = navItems.find((item) => item.href === pathname);
+  const { data: currentUser } = useCurrentUser();
 
   const isMobile = useBreakpointValue({ base: true, md: false });
 
+  function handleLogout() {
+    setIsLoggingOut(true);
+    Cookies.remove("accessToken");
+    router.push("/login");
+  }
+
   return (
+    <>
+      {isLoggingOut && (
+        <Box
+          position="fixed"
+          inset="0"
+          bg="blackAlpha.600"
+          zIndex="9999"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <VStack gap={3}>
+            <Spinner size="xl" color="white" />
+            <Text color="white" fontWeight="medium">
+              Çıkış yapılıyor...
+            </Text>
+          </VStack>
+        </Box>
+      )}
+
     <Box bg="bg.surface" boxShadow="sm" px={{ base: "4", md: "6" }} py="3">
       <Flex justify="space-between" align="center">
         <Box maxW={{ base: "150px", sm: "full" }} overflow="hidden">
@@ -49,9 +82,41 @@ export function Navbar() {
           </Button>
 
           <ColorModeButton />
-          <Avatar name="Ceren P." size="sm" />
+          <Menu.Root
+            onSelect={(details) => {
+              if (details.value === "logout") {
+                Cookies.remove("accessToken");
+                router.push("/login");
+              }
+              if (details.value === "profile") {
+              }
+            }}
+          >
+            <Menu.Trigger asChild>
+              <Button variant="plain" size="sm" p={0}>
+                <Avatar
+                  name={currentUser ? `${currentUser.firstName} ${currentUser.lastName}` : undefined}
+                  src={currentUser?.image}
+                  size="sm"
+                  cursor="pointer"
+                />
+              </Button>
+            </Menu.Trigger>
+
+            <Portal>
+              <Menu.Positioner>
+                <Menu.Content>
+                  <Menu.Item value="profile">Profilim</Menu.Item>
+                  <Menu.Item value="logout" color="red.500">
+                    Çıkış Yap
+                  </Menu.Item>
+                </Menu.Content>
+              </Menu.Positioner>
+            </Portal>
+          </Menu.Root>
         </Flex>
       </Flex>
     </Box>
+    </>
   );
 }
