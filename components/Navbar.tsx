@@ -89,6 +89,7 @@ export function Navbar() {
                 router.push("/login");
               }
               if (details.value === "profile") {
+                router.push("/profile");
               }
             }}
           >
