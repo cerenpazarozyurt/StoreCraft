@@ -3,9 +3,12 @@
 import { useState } from "react";
 import { Box, Flex, Text, Input, Button, Table, Badge, Stack, Skeleton } from "@chakra-ui/react";
 import { Search, Plus, ChevronLeft, ChevronRight, ShoppingBag, Filter as FilterIcon, X } from "lucide-react";
+import { CreateOrderModal } from "@/components/CreateOrderModal";
 import { useOrders } from "@/hooks/useOrders";
 
 export default function OrdersPage() {
+  const [isCreateOrderOpen, setIsCreateOrderOpen] = useState(false);
+
   const {
     orders,
     total,
@@ -52,7 +55,7 @@ export default function OrdersPage() {
         <Text fontSize="2xl" fontWeight="bold" color="text.primary">
           Orders Summary
         </Text>
-        <Button colorPalette="blue" size="sm">
+        <Button colorPalette="blue" size="sm" onClick={() => setIsCreateOrderOpen(true)}>
           <Plus size={16} /> Create a New Order
         </Button>
       </Flex>
@@ -106,7 +109,7 @@ export default function OrdersPage() {
             </Box>
           </Flex>
         </Box> 
-        
+       
       </Flex>
 
       <Box bg="bg.surface" borderRadius="lg" boxShadow="sm" overflow="hidden">
@@ -311,8 +314,8 @@ export default function OrdersPage() {
             </Button>
           </Flex>
         </Flex>
-
       </Box>
+      <CreateOrderModal isOpen={isCreateOrderOpen} onClose={() => setIsCreateOrderOpen(false)} />
     </Box>
   );
 }

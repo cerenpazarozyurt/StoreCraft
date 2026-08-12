@@ -9,7 +9,7 @@ interface CartProduct {
   thumbnail: string;
 }
 
-interface Cart {
+export interface Cart {
   id: number;
   products: CartProduct[];
   total: number;
@@ -17,6 +17,11 @@ interface Cart {
   userId: number;
   totalProducts: number;
   totalQuantity: number;
+}
+
+export interface NewOrderPayload {
+  userId: number;
+  products: { id: number; quantity: number }[];
 }
 
 interface CartsResponse {
@@ -42,6 +47,10 @@ export interface OrderFilters {
   status?: string;
   minAmount?: string;
   maxAmount?: string;
+}
+
+export async function createOrder(payload: NewOrderPayload): Promise<Cart> {
+  return api.post<Cart>("/carts/add", payload);
 }
 
 export function getMockStatus(id: number): Order["status"] {

@@ -61,6 +61,13 @@ export async function getProducts(
   return { products: data.products, total: data.total };
 }
 
+export async function searchProducts(query: string): Promise<Product[]> {
+  const data = await api.get<ProductsResponse>(
+    `/products/search?q=${encodeURIComponent(query)}&limit=10`
+  );
+  return data.products;
+}
+
 export interface NewProduct {
   title: string;
   brand: string;
