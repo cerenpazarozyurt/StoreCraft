@@ -3,7 +3,7 @@
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
 import { ColorModeButton } from "@/components/ui/color-mode";
-import { Box, Menu, Portal, Button, Flex, Text, Breadcrumb, useBreakpointValue, Spinner, VStack } from "@chakra-ui/react";
+import { Box, Menu, Portal, Button, Flex, Text, Breadcrumb, useBreakpointValue, Spinner, VStack, Popover, Badge, HStack, Checkbox } from "@chakra-ui/react";
 import { Avatar } from "@/components/ui/avatar";
 import { ChevronDown, Home, Bell } from "lucide-react";
 import { navItems } from "@/lib/navigation";
@@ -11,6 +11,7 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { useTodos } from "@/hooks/useTodos";
 
 export function Navbar() {
   const [isLoggingOut, setIsLoggingOut] = useState(false);
@@ -18,6 +19,7 @@ export function Navbar() {
   const pathname = usePathname();
   const currentItem = navItems.find((item) => item.href === pathname);
   const { data: currentUser } = useCurrentUser();
+  const { todos, toggleTodo, incompleteCount, isLoading } = useTodos();
 
   const isMobile = useBreakpointValue({ base: true, md: false });
 
@@ -77,9 +79,66 @@ export function Navbar() {
         </Box>
 
         <Flex align="center" gap={{ base: "2", md: "4" }}>
-          <Button variant="ghost" size="sm" aria-label="Bildirimler">
-            <Bell size={18} />
-          </Button>
+          <Popover.Root positioning={{ placement: "bottom-end" }}>
+            <Popover.Trigger asChild>
+              <Box position="relative" cursor="pointer">
+                <Button variant="ghost" size="sm" aria-label="Bildirimler">
+                  <Bell size={18} />
+                </Button>
+                {incompleteCount > 0 && (
+                  <Badge
+                    position="absolute"
+                    top="-1"
+                    right="-1"
+                    colorPalette="red"
+                    borderRadius="full"
+                    fontSize="2xs"
+                    px="1.5"
+                    minW="18px"
+                    textAlign="center"
+                  >
+                    {incompleteCount}
+                  </Badge>
+                )}
+              </Box>
+            </Popover.Trigger>
+
+            <Portal>
+              <Popover.Positioner>
+                <Popover.Content bg="bg.surface" w="320px" maxH="400px" overflowY="auto">
+                  <Popover.Body>
+                    <Text fontWeight="bold" mb="3" color="text.primary">
+                      Görevler ({incompleteCount} bekliyor)
+                    </Text>
+
+                    {isLoading ? (
+                      <Text fontSize="sm" color="text.muted">Yükleniyor...</Text>
+                    ) : (
+                      <VStack align="stretch" gap="2">
+                        {todos.map((todo) => (
+                          <HStack key={todo.id} gap="2" align="start">
+                            <input
+                              type="checkbox"
+                              checked={todo.completed}
+                              onChange={(e) => toggleTodo(todo.id, e.target.checked)}
+                              style={{ marginTop: "4px", cursor: "pointer" }}
+                            />
+                            <Text
+                              fontSize="sm"
+                              color={todo.completed ? "text.muted" : "text.primary"}
+                              textDecoration={todo.completed ? "line-through" : "none"}
+                            >
+                              {todo.todo}
+                            </Text>
+                          </HStack>
+                        ))}
+                      </VStack>
+                    )}
+                  </Popover.Body>
+                </Popover.Content>
+              </Popover.Positioner>
+            </Portal>
+          </Popover.Root>
 
           <ColorModeButton />
           <Menu.Root

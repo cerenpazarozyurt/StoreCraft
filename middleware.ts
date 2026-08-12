@@ -5,7 +5,12 @@ const publicRoutes = ["/login", "/register"];
 
 export function middleware(request: NextRequest) {
   const token = request.cookies.get("accessToken")?.value;
-  const isPublicRoute = publicRoutes.includes(request.nextUrl.pathname);
+  const { pathname } = request.nextUrl;
+  const isPublicRoute = publicRoutes.includes(pathname);
+
+  if (pathname === "/") {
+    return NextResponse.redirect(new URL(token ? "/dashboard" : "/login", request.url));
+  }
 
   if (!token && !isPublicRoute) {
     return NextResponse.redirect(new URL("/login", request.url));
