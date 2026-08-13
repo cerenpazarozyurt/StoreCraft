@@ -27,7 +27,6 @@ export function useOrders() {
     debouncedSetSearch(value);
   }
 
-  //userMap kendi useQuery'sinde, tek sefer çekilip 5 dakika cache'de kalıyor
   const { data: userMap } = useQuery({
     queryKey: ["user-map"],
     queryFn: getUserMap,

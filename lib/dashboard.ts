@@ -63,7 +63,7 @@ export function getCriticalStockCount(products: Product[], threshold = 10): numb
   return criticalProducts.length;
 }
 
-//ürün ıd sini anahtar yapıp o ürünün marka ve kategorisini değer olaran tutan hızlı bir map yapısı oluşturur.
+//ürün ıd sini anahtar yapıp o ürünün marka ve kategorisini değer olaran tutan bir map yapısı oluşur ve ürün içinde tek tek arama yapmak yerine id verip marka ve kategorisini anında bulabilmeysi sağlar.
 function buildProductLookup(products: Product[]): Map<number, { brand: string; category: string }> {
   const map = new Map<number, { brand: string; category: string }>();
   products.forEach((product) => {

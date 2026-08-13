@@ -32,8 +32,8 @@ export function useCreateOrder() {
     return customers.filter((c) => c.name.toLowerCase().includes(query)).slice(0, 8);
   }, [customers, customerQuery]);
 
-  const selectedCustomerName =
-    customers.find((c) => c.id === selectedCustomerId)?.name ?? null;
+  //id ile ismi eşler
+  const selectedCustomerName = customers.find((c) => c.id === selectedCustomerId)?.name ?? null;
 
   function handleCustomerQueryChange(value: string) {
     setCustomerQuery(value);

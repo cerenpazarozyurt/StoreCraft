@@ -23,7 +23,7 @@ export function useProducts() {
     setSkip(0);
   }, 400);
 
-  // Filtreler değiştiğinde sayfalamayı (skip) başa sarmak için yardımcı setter'lar:
+  // Filtreler değiştiğinde sayfalamayı başa sarmak için yardımcı setter'lar:
   const handleCategoryChange = (val: string) => { 
     setCategory(val || null); //kullanıcının seçtiği kategoriyi url e kaydeder
     setSkip(0);
@@ -61,7 +61,7 @@ export function useProducts() {
   function optimisticUpdate(updater: (old: any) => any) {
     return async () => {
       await queryClient.cancelQueries({ queryKey: ["products"] }); //products a sahip o an arkada çalışan başka bir veri çekme isteiği varsa iptal
-      const previousData = queryClient.getQueriesData({ queryKey: ["products"] }); //mevcut önbellliği hafızada saklar
+      const previousData = queryClient.getQueriesData({ queryKey: ["products"] }); //mevcut önbelleği hafızada saklar
       queryClient.setQueriesData({ queryKey: ["products"] }, updater);
       return { previousData };
     };

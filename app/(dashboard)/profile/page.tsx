@@ -101,7 +101,7 @@ export default function ProfilePage() {
           <Text fontSize="sm" color="text.muted" mb="4">@{user?.username}</Text>
           <Flex align="center" justify="center" gap="2" bg="bg.muted" p="2" borderRadius="md" fontSize="xs" color="text.muted">
             <Shield size={14} />
-            <Text>Yetkili Yönetici</Text>
+            <Text>Yönetici</Text>
           </Flex>
         </Box>
 

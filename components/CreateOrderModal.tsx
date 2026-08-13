@@ -1,22 +1,7 @@
 "use client";
 
-import {
-  Dialog,
-  Portal,
-  Button,
-  Input,
-  VStack,
-  HStack,
-  Text,
-  Box,
-  Flex,
-  Grid,
-  Image,
-  IconButton,
-  Field,
-  Spinner,
-} from "@chakra-ui/react";
-import { Search, Trash2, Plus, Minus, X, User } from "lucide-react";
+import { Dialog, Portal, Button, Input, VStack, HStack, Text, Box, Flex, Grid, Image, IconButton, Field, Spinner } from "@chakra-ui/react";
+import { Search, Trash2, Plus, Minus, X, User, ShoppingCart, Package } from "lucide-react";
 import { useCreateOrder } from "@/hooks/useCreateOrder";
 import { getCategoryLabel } from "@/lib/categoryLabels";
 import { Product } from "@/lib/products";
@@ -142,9 +127,9 @@ export function CreateOrderModal({ isOpen, onClose }: CreateOrderModalProps) {
     submit(onClose);
   }
 
-  const canSubmit = selectedCustomerId !== null && cartItems.length > 0;
-  const showCustomerSuggestions = !selectedCustomerId && customerQuery.length > 0;
-  const showProductList = isSearching || Boolean(selectedCategory);
+  const canSubmit = selectedCustomerId !== null && cartItems.length > 0; //Gönder butonuna basılır mı
+  const showCustomerSuggestions = !selectedCustomerId && customerQuery.length > 0; //Müşteri öneri listesi gösterilsin mi
+  const showProductList = isSearching || Boolean(selectedCategory); //Ürün arama sonuç kutusu gösterilsin mi
 
   return (
     <Dialog.Root open={isOpen} onOpenChange={(details) => !details.open && handleClose()} placement="center" size="lg">
@@ -254,19 +239,22 @@ export function CreateOrderModal({ isOpen, onClose }: CreateOrderModalProps) {
                     overflowY="auto"
                     bg={showProductList ? "bg.surface" : "bg.muted"}
                   >
-                    {showProductList ? (
-                      <ProductPickerList
-                        products={productOptions}
-                        isLoading={isLoadingProducts}
-                        onSelect={addProduct}
-                      />
-                    ) : (
-                      <Flex justify="center" align="center" minH="120px">
-                        <Text fontSize="sm" color="text.muted">
-                          —
-                        </Text>
-                      </Flex>
-                    )}
+                  {showProductList ? (
+                    <ProductPickerList
+                      products={productOptions}
+                      isLoading={isLoadingProducts}
+                      onSelect={addProduct}
+                    />
+                  ) : (
+                    <VStack justify="center" align="center" minH="120px" gap="2">
+                      <Box color="text.muted" opacity={0.5}>
+                        <Package size={28} />
+                      </Box>
+                      <Text fontSize="xs" color="text.muted" textAlign="center" px="4">
+                        Ürün aramak için yazın veya bir kategori seçin
+                      </Text>
+                    </VStack>
+                  )}
                   </Box>
                 </Box>
 
@@ -289,11 +277,17 @@ export function CreateOrderModal({ isOpen, onClose }: CreateOrderModalProps) {
                   </Grid>
 
                   {cartItems.length === 0 ? (
-                    <Flex justify="center" align="center" py="6">
-                      <Text fontSize="sm" color="text.muted">
-                        Sepet boş
-                      </Text>
-                    </Flex>
+                  <VStack justify="center" align="center" py="8" gap="2">
+                    <Box color="text.muted" opacity={0.5}>
+                      <ShoppingCart size={32} />
+                    </Box>
+                    <Text fontSize="sm" fontWeight="medium" color="text.muted">
+                      Sepetiniz henüz boş
+                    </Text>
+                    <Text fontSize="xs" color="text.muted">
+                      Yukarıdan ürün arayarak eklemeye başlayın
+                    </Text>
+                  </VStack>
                   ) : (
                     cartItems.map((item) => (
                       <Grid

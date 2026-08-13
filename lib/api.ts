@@ -20,7 +20,7 @@ export const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {  //request interceptor, istek sunucuya gitmeden önce araya girer.
-  const token = Cookies.get("accessToken"); //cookie de token varsa her isteğe authorization header ını ekle
+  const token = Cookies.get("accessToken"); 
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }

@@ -61,7 +61,7 @@ export function getMockStatus(id: number): Order["status"] {
 }
 
 //kullanıcı id leri ile isimlerini eşleştiren map
-export async function getUserMap(): Promise<Map<number, string>> {  //Promise<Map<number, string: bu fonk. sonucunda dışarıya bir Promise dönecek ve bu Promise çözüldüğünde elimizde bir Map<number, string> objesi gelecek. Map objesi ise kullanıcı id leri ile isimlerini eşleştiren bir veri yapısı olacak.
+export async function getUserMap(): Promise<Map<number, string>> {  
   const data = await api.get<{ users: User[] }>(`/users?limit=0&select=firstName,lastName`);
   const map = new Map<number, string>();
   data.users.forEach((user) => {
@@ -102,13 +102,13 @@ export async function getOrders(
   filters: OrderFilters = {}
 ): Promise<{ orders: Order[]; total: number }> {
   if (hasActiveFilters(filters)) {
-    const data = await api.get<CartsResponse>(`/carts?limit=0`); ////tüm sepeti çekiyoruz çünkü arama yapacağız ve API tarafında arama desteği yok
+    const data = await api.get<CartsResponse>(`/carts?limit=0`); //tüm sepeti çekiyoruz çünkü arama yapacağız ve API tarafında arama desteği yok
     const allOrders = data.carts.map((cart) => enrichCartToOrder(cart, userMap));
     const filtered = applyFilters(allOrders, filters);
     return { orders: filtered.slice(skip, skip + limit), total: filtered.length };
   }
 
-  const data = await api.get<CartsResponse>(`/carts?skip=${skip}&limit=${limit}`);  ////tüm sepet çekilip yavaşlama olmasın diye skip ve limit parametreleri ile sayfalama yapıyoruz.
+  const data = await api.get<CartsResponse>(`/carts?skip=${skip}&limit=${limit}`); //tüm sepet çekilip yavaşlama olmasın diye skip ve limit parametreleri ile sayfalama yapıyoruz.
   const orders = data.carts.map((cart) => enrichCartToOrder(cart, userMap));
   return { orders, total: data.total };
 }

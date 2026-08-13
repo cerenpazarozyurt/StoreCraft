@@ -63,7 +63,7 @@ export async function getProducts(
 
 export async function searchProducts(query: string): Promise<Product[]> {
   const data = await api.get<ProductsResponse>(
-    `/products/search?q=${encodeURIComponent(query)}&limit=10`
+    `/products/search?q=${encodeURIComponent(query)}&limit=10`  //encodeURIComponent, türkçe - özel karakter vs girerse url in bozulmasını engeller 
   );
   return data.products;
 }
