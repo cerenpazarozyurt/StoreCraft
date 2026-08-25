@@ -1,8 +1,20 @@
+"use client";
+
 import { Navbar } from "@/components/Navbar";
 import { Sidebar } from "@/components/Sidebar";
-import { Box } from "@chakra-ui/react";
+import { Box, Spinner,Center } from "@chakra-ui/react";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
+import LoginPage from "../(auth)/login/page";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+    const { data: currentUser, isLoading } = useCurrentUser();
+    if (isLoading) {
+      return <Center h="full"><Spinner /></Center>;
+    }
+    if (!currentUser) {
+      return <LoginPage />;
+    }
+
   return (
     <Box bg="bg.canvas" h="100dvh" w="100vw">
       <div className="flex h-full w-full">

@@ -7,35 +7,38 @@ import { Box, Button, Flex, Heading, Input, InputGroup, Text, VStack, Link as Ch
 import { Field } from "@/components/ui/field";
 import { PasswordInput } from "@/components/ui/password-input";
 import { toaster } from "@/components/ui/toaster";
-import { User, Mail, Lock } from "lucide-react";
+import { User, Mail, Lock, KeyRound } from "lucide-react";
 import NextLink from "next/link";
 import { useRouter } from "next/navigation";
 import { registerSchema, RegisterFormValues } from "@/lib/validations/auth";
 
 export default function RegisterPage() {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); //tanStackQuery ile de yapabilirsin. 
   const router = useRouter();
 
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
   });
 
   const onSubmit = async (data: RegisterFormValues) => {
-    setIsLoading(true);
+    if (data.password !== data.confirmPassword) {
+      setError("confirmPassword", { message: "Şifreler eşleşmiyor" });
+      return; 
+    }
 
+    setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
-
       toaster.create({
         title: "Hesap Oluşturuldu!",
         description: "Başarıyla kayıt oldunuz, giriş sayfasına yönlendiriliyorsunuz...",
         type: "success",
       });
-
       router.push("/login");
     }, 1000);
   };
@@ -73,6 +76,12 @@ export default function RegisterPage() {
               <Field label="Create a Strong Password" invalid={!!errors.password} errorText={errors.password?.message}>
                 <InputGroup startElement={<Lock size={16} />} w="full">
                   <PasswordInput placeholder="********" {...register("password")} borderRadius="md" />
+                </InputGroup>
+              </Field>
+
+              <Field label="Confirm Password" invalid={!!errors.confirmPassword} errorText={errors.confirmPassword?.message}>
+                <InputGroup startElement={<KeyRound size={16} />} w="full">
+                  <PasswordInput placeholder="********" {...register("confirmPassword")} borderRadius="md" />
                 </InputGroup>
               </Field>
 
