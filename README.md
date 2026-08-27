@@ -22,7 +22,7 @@ Cookie tabanlı token yönetimi ve Next.js Middleware ile korunan route sistemi.
 
 ### 📊 Dashboard
 
-Mağazanın genel durumunu tek bakışta görmek için tasarlanmış analitik paneli. Tüm veriler TanStack Query ile parallel olarak çekilir; yükleme tamamlanmadan tam ekran spinner gösterilir.
+Mağazanın genel durumunu tek bakışta görmek için tasarlanmış analitik paneli. Tüm veriler TanStack Query ile paralel olarak çekilir; yükleme tamamlanmadan tam ekran spinner gösterilir.
 
 **Stat Kartları:** Toplam mağaza cirosu · Toplam satılan ürün · Ortalama sepet tutarı · Kritik stok seviyesindeki ürün sayısı (stok < 10)
 
@@ -34,7 +34,7 @@ Mağazanın genel durumunu tek bakışta görmek için tasarlanmış analitik pa
 
 **İlk 5 Marka (Satış Payı)** — Highcharts pie chart; kategori dropdown'ı ile filtrelenebilir. Seçilen kategorideki markaların satış adetleri kıyaslanır.
 
-**Son Siparişler** — Son 5 siparişi ürün görseli, tutar ve durum badge'iyle listeler.
+**Son Siparişler** — Son 5 siparişin ürün görseli, tutar ve durum badge'iyle listeler.
 
 ![Dashboard alt bölüm — Marka pasta grafiği ve son siparişler](screenshot/dashboard2.png)
 
@@ -290,8 +290,6 @@ Kullanıcı Adı: emilys
 | `PUT /todos/:id` | Görev durumu güncelleme |
 
 ---
-
-## 📝 Notlar
 
 - **Gerçek backend yok:** Tüm mutasyon işlemleri (ekleme, silme, güncelleme) DummyJSON'ın fake API'sini kullanır. Değişiklikler gerçekte kalıcı değildir.
 - **Sipariş durumları mock'tur:** `getMockStatus(id)` fonksiyonu, sipariş ID'sine göre deterministik olarak `Completed / In-Progress / Pending` durumunu atar (`id % 3`).
